@@ -20,7 +20,7 @@
 *
 * @package    local
 * @subpackage actividadSocial
-* @copyright  2015 César Farías
+* @copyright  2015 Cï¿½sar Farï¿½as
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
@@ -28,6 +28,7 @@
 
 require_once(dirname(__FILE__) . '/../../config.php'); //obligatorio
 require_once($CFG->dirroot.'/local/actividadSocial/forms/form.php');
+require_once($CFG->dirroot.'/local/reservasalas/tablas.php');
 
 
 global $PAGE, $CFG, $OUTPUT, $DB;
@@ -52,6 +53,33 @@ if($fromform = $formulario->get_data()){
 
 $formulario->display();
 
+$table = new html_table();
+
+$table->head = array("Nombre",
+					"AÃ±o",
+					"Color");
+
+$row = new html_table_row(array("Kia Morning",
+						"2012",
+						"Negro"));
+$table->data[] = $row;
+
+$row = new html_table_row(array("Toyota Yaris",
+						"2014",
+						"Rojo"));
+$table->data[] = $row;
+
+$row = new html_table_row(array("Subaru Outback",
+						"2009",
+						"Gris perla"));
+$table->data[] = $row;
+
+$row = new html_table_row(array("Mazda 3",
+						"2011",
+						"Azul"));
+$table->data[] = $row;
+
+echo html_writer::table($table);
 
 echo $OUTPUT->footer();
 
