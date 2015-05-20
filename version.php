@@ -30,8 +30,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$plugin->pluginname = "local_actividadSocial";
+$plugin->component = 'local_actividadSocial';
+$plugin->version   = '2015050601';
 
-$module->version   = 2015050601;      // The current module version (Date: YYYYMMDDXX)
-$module->requires  = 2013110500;      // Requires this Moodle version
-$module->cron      = 0;               // Period for cron to check this module (secs)
-$module->component = 'local_actividadSocial'; // To check on upgrade, that module sits in correct place
+//$plugin->version   = 2015050601;      // The current module version (Date: YYYYMMDDXX)
+//$plugin->requires  = 2013110500;      // Requires this Moodle version
+//$plugin->component = 'local_actividadSocial'; // To check on upgrade, that module sits in correct place
