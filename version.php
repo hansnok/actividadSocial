@@ -15,13 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
-/**
- * Defines the version of emarking
-*
-* This code fragment is called by moodle_needs_upgrading() and
-* /admin/index.php
-
+/*
 * @package    local
 * @subpackage actividadSocial
 * @copyright  2015 Hans Jeria <hansjeria@gmail.com>
@@ -30,10 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->pluginname = "local_actividadSocial";
-$plugin->component = 'local_actividadSocial';
+$plugin->pluginname = "local_actividadsocial";
+$plugin->component = 'local_actividadsocial';
 $plugin->version   = '2015050601';
-
-//$plugin->version   = 2015050601;      // The current module version (Date: YYYYMMDDXX)
-//$plugin->requires  = 2013110500;      // Requires this Moodle version
-//$plugin->component = 'local_actividadSocial'; // To check on upgrade, that module sits in correct place
