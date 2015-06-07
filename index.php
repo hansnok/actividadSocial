@@ -28,11 +28,14 @@ require_once(dirname(__FILE__) . '/../../config.php');
 global $PAGE, $CFG, $OUTPUT, $DB;
 require_login();
 
+// Variables enviadas por URL desde el bloque, esto depende del boton donde se hizo blick
+// cmid es course module id, es decir, el curso donde el usuario estaba
 $cmid = optional_param('cmid',0,PARAM_INT);
-// action = {assign, quiz, resource}
-// Desde el bloque nos dicen que contenido se desea ver
+// action es que boton apreto el usuario en el bloque, este puede ser action = {assign, quiz, resource}
+// por defecto es "empty", es decir que si no se llega desde el bloque el plugin no despliega información
 $action = optional_param('action','empty',PARAM_TEXT);
 
+// Construcción de la pagina en formato moodle
 $url = new moodle_url('/local/actividadsocial/index.php');
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -43,11 +46,12 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 echo $OUTPUT->header();
 
+// Depende del boton que hizo click el usuario en el bloque es el case que se ejecutara
 switch ($action){
 	case "assign":		
 			echo html_writer::start_tag("h1").get_string('assign','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);		
-			//Traer todas las tareas
+			// Trae todas las tareas enviadas, ordenadas desde las mas nueva a las vieja
 			$sql_assing = "SELECT asub.id, a.name, us.firstname, us.lastname, asub.timecreated, asub.timemodified
 						 	FROM {course_modules} as cm INNER JOIN {modules} as m ON (cm.module = m.id) 
 						   		INNER JOIN {assign} as a ON (a.course = cm.course) 
@@ -58,7 +62,9 @@ switch ($action){
     							AND m.visible = ?
     							AND cm.course = ?
 							ORDER BY asub.timemodified DESC,asub.id";
+			// Consulta a la base de datos
 			$lastassings = $DB->get_records_sql($sql_assing, $params);
+			// Construcción de la tabla
 			$table_assign = new html_table();
 			$table_assign->head = array(get_string('name','local_actividadsocial'), 
 										get_string('username','local_actividadsocial'), 
@@ -70,6 +76,7 @@ switch ($action){
 				$timemodified = date('d-m-Y  H:i',$assing->timemodified);
 				$table_assign->data[] = array($assing->name,$assing->firstname." ".$assing->lastname, $timecreated,$timemodified);
 			}
+			// se imprime en pantalla la tabla con lo datos y un boton que permite volver al curso desde el cual se hizo click en el bloque
 			echo html_writer::table($table_assign);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
 			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
@@ -78,7 +85,7 @@ switch ($action){
 	case "quiz":		
 			echo html_writer::start_tag("h1").get_string('quiz','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);
-			//Traer todas las tareas
+			//Trae todos lo quizes terminados desde el mas nuevo al mas antiguo
 			$sql_quiz = "SELECT qatt.id, q.name, us.firstname, us.lastname, qatt.timestart, qatt.timefinish
 						 	FROM {course_modules} as cm INNER JOIN {modules} as m ON (cm.module = m.id)
 						   		INNER JOIN {quiz} as q ON (q.course = cm.course)
@@ -89,7 +96,9 @@ switch ($action){
     							AND m.visible = ?
     							AND cm.course = ?
     					  	ORDER BY qatt.timefinish DESC, qatt.id";
+			// Consulta a la base de datos
 			$lastquiz = $DB->get_records_sql($sql_quiz, $params);
+			//Creacion de la tabla
 			$table_quiz = new html_table();
 			$table_quiz->head = array(get_string('name','local_actividadsocial'),
 									get_string('username','local_actividadsocial'),
@@ -101,6 +110,7 @@ switch ($action){
 				$timefinish = date('d-m-Y  H:i',$quiz->timefinish);
 				$table_quiz->data[] = array($quiz->name,$quiz->firstname." ".$quiz->lastname,$timestart ,$timefinish);
 			}
+			// se imprime en pantalla la tabla con lo datos y un boton que permite volver al curso desde el cual se hizo click en el bloque
 			echo html_writer::table($table_quiz);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
 			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
@@ -109,7 +119,7 @@ switch ($action){
 	case "resource":
 			echo html_writer::start_tag("h1").get_string('resources','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);
-			//Traer todos los recursos que se vieron
+			//Trae todos lo recursos que fueron descargados ordenados del mas nuevo al mas antiguo
 			$sql_resources = "SELECT log.id, r.name, us.firstname, us.lastname, log.timecreated
 						 	FROM {course_modules} as cm INNER JOIN {modules} as m ON (cm.module = m.id)
 						   		INNER JOIN {resource} as r ON (r.course = cm.course)
@@ -121,7 +131,9 @@ switch ($action){
     							AND m.visible = ?
     							AND cm.course = ?
     					  	ORDER BY log.timecreated DESC, log.id";
+			// Consulta a la base de datos
 			$lastresources = $DB->get_records_sql($sql_resources, $params);
+			// Creacion de la tabla
 			$table_resource = new html_table();
 			$table_resource->head = array(get_string('name','local_actividadsocial'), 
 										get_string('username','local_actividadsocial'), 
@@ -132,11 +144,12 @@ switch ($action){
 				$table_resource->data[] = array($resource->name,$resource->firstname." ".$resource->lastname, $timeview);
 			}
 			$lastresources = $DB->get_records_sql($sql_resources, $params);
+			// se imprime en pantalla la tabla con lo datos y un boton que permite volver al curso desde el cual se hizo click en el bloque
 			echo html_writer::table($table_resource);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
 			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
 			break;
-			
+	// Si no ejecuta ningun case se muestra el mensaje de acceso invalido a la pagina	
 	default: echo get_string('invac','local_actividadsocial');	
 		
 }
