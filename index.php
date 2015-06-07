@@ -17,18 +17,15 @@
 
 /**
  *
-*
 * @package    local
 * @subpackage actividadSocial
-* @copyright  2015  Hans Jeria
-* 					César Farías
+* @copyright  2015  Hans Jeria (hansjeria@gmail.com)
+* 			  2015 César Farías
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
 require_once(dirname(__FILE__) . '/../../config.php');
-
 global $PAGE, $CFG, $OUTPUT, $DB;
-
 require_login();
 
 $cmid = optional_param('cmid',0,PARAM_INT);
@@ -36,24 +33,19 @@ $cmid = optional_param('cmid',0,PARAM_INT);
 // Desde el bloque nos dicen que contenido se desea ver
 $action = optional_param('action','empty',PARAM_TEXT);
 
-
-$url = new moodle_url('/local/actividadSocial/index.php');
+$url = new moodle_url('/local/actividadsocial/index.php');
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('standard');
-
-$title ="Social Activity";
-
+$title = get_string('socac','local_actividadsocial');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
-
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
 
 switch ($action){
 	case "assign":		
-			echo "<h1>Assing</h1>";
+			echo html_writer::start_tag("h1").get_string('assign','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);		
 			//Traer todas las tareas
 			$sql_assing = "SELECT asub.id, a.name, us.firstname, us.lastname, asub.timecreated, asub.timemodified
@@ -68,8 +60,11 @@ switch ($action){
 							ORDER BY asub.timemodified DESC,asub.id";
 			$lastassings = $DB->get_records_sql($sql_assing, $params);
 			$table_assign = new html_table();
-			// TODO: Conversar con el cliente si desea mostrar mayor información
-			$table_assign->head = array('Name', 'User name', 'Date created','Date modified');
+			$table_assign->head = array(get_string('name','local_actividadsocial'), 
+										get_string('username','local_actividadsocial'), 
+										get_string('cdate','local_actividadsocial'),
+										get_string('mdate','local_actividadsocial')
+			);
 			foreach($lastassings as $assing){
 				$timecreated = date('d-m-Y  H:i',$assing->timecreated);
 				$timemodified = date('d-m-Y  H:i',$assing->timemodified);
@@ -77,11 +72,11 @@ switch ($action){
 			}
 			echo html_writer::table($table_assign);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
-			echo $OUTPUT->single_button($buttonback,"Back");
-			
+			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
 			break;
+			
 	case "quiz":		
-			echo "<h1>Quiz</h1>";
+			echo html_writer::start_tag("h1").get_string('quiz','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);
 			//Traer todas las tareas
 			$sql_quiz = "SELECT qatt.id, q.name, us.firstname, us.lastname, qatt.timestart, qatt.timefinish
@@ -96,8 +91,11 @@ switch ($action){
     					  	ORDER BY qatt.timefinish DESC, qatt.id";
 			$lastquiz = $DB->get_records_sql($sql_quiz, $params);
 			$table_quiz = new html_table();
-			// TODO: Conversar con el cliente si desea mostrar mayor información
-			$table_quiz->head = array('Name', 'User name', ' Time start','Time finish');
+			$table_quiz->head = array(get_string('name','local_actividadsocial'),
+									get_string('username','local_actividadsocial'),
+									get_string('starttime','local_actividadsocial'),
+									get_string('end.time','local_actividadsocial')
+			);
 			foreach($lastquiz as $quiz){
 				$timestart = date('d-m-Y  H:i',$quiz->timestart);
 				$timefinish = date('d-m-Y  H:i',$quiz->timefinish);
@@ -105,10 +103,11 @@ switch ($action){
 			}
 			echo html_writer::table($table_quiz);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
-			echo $OUTPUT->single_button($buttonback,"Back");
-			break;			
+			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
+			break;	
+					
 	case "resource":
-			echo "<h1>Resource</h1>";
+			echo html_writer::start_tag("h1").get_string('resources','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);
 			//Traer todos los recursos que se vieron
 			$sql_resources = "SELECT log.id, r.name, us.firstname, us.lastname, log.timecreated
@@ -124,8 +123,10 @@ switch ($action){
     					  	ORDER BY log.timecreated DESC, log.id";
 			$lastresources = $DB->get_records_sql($sql_resources, $params);
 			$table_resource = new html_table();
-			// TODO: Conversar con el cliente si desea mostrar mayor información
-			$table_resource->head = array('Name', 'User name', 'Time view');
+			$table_resource->head = array(get_string('name','local_actividadsocial'), 
+										get_string('username','local_actividadsocial'), 
+										get_string('timeview','local_actividadsocial')
+			);
 			foreach($lastresources as $resource){
 				$timeview = date('d-m-Y  H:i',$resource->timecreated);
 				$table_resource->data[] = array($resource->name,$resource->firstname." ".$resource->lastname, $timeview);
@@ -133,12 +134,12 @@ switch ($action){
 			$lastresources = $DB->get_records_sql($sql_resources, $params);
 			echo html_writer::table($table_resource);
 			$buttonback = new moodle_url('../../course/view.php', array('id'=>$cmid));
-			echo $OUTPUT->single_button($buttonback,"Back");
+			echo $OUTPUT->single_button($buttonback, get_string('back','local_actividadsocial'));
 			break;
-	default: echo "Invalid action";	
+			
+	default: echo get_string('invac','local_actividadsocial');	
 		
 }
-
 
 echo $OUTPUT->footer();
 

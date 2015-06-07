@@ -19,8 +19,20 @@
  *
  * @package actividadSocial
  * @copyright 2015 Hans Jeria (hansjeria@gmail.com)
+ * 			  2015 César Farías
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//Example
-$string['processomr'] = 'Process OMR';
+$string['socac']= 'Actividad Social';
+$string['invac']= 'Acción Inválida';
+$string['resources']= 'Archivos';
+$string['name']= 'Nombre';
+$string['username']= 'Usuario';
+$string['timeview']= 'última Visita';
+$string['back']= 'Atrás';
+$string['starttime']= 'Punto de comienzo';
+$string['end.time']= 'Punto de término';
+$string['assign']= 'Tarea';
+$string['cdate']= 'Fecha De Creación';
+$string['mdate']= 'Fecha De última Modificación';
+$string['quiz']= "Quiz Terminados";

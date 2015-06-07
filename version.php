@@ -26,4 +26,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->pluginname = "local_actividadsocial";
 $plugin->component = 'local_actividadsocial';
-$plugin->version   = '2015050601';
+$plugin->version   = '2015060701';

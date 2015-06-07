@@ -19,8 +19,21 @@
  *
  * @package actividadSocial
  * @copyright 2015 Hans Jeria (hansjeria@gmail.com)
+ * 			  2015 César Farías
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//Example
-$string['processomr'] = 'Process OMR';
+$string['socac']= 'Social Activity';
+$string['invac']= 'Invalid Action';
+$string['resources']= 'Resources';
+$string['name']= 'Name';
+$string['username']= 'Username';
+$string['timeview']= 'Time View';
+$string['back']= 'Back';
+$string['starttime']= 'Starting Point';
+$string['end.time']= 'Ending Point';
+$string['assign']= 'Assign';
+$string['cdate']= 'Creation Date';
+$string['mdate']= 'Date Of Last Modification';
+$string['quiz'] = "Completed Quiz";
+
