@@ -24,15 +24,15 @@
  */
 
 $string['socac']= 'Actividad Social';
-$string['invac']= 'Acción Inválida';
-$string['resources']= 'Archivos';
+$string['invac']= 'Acción inválida';
+$string['resources']= 'Archivos Descargados';
 $string['name']= 'Nombre';
 $string['username']= 'Usuario';
-$string['timeview']= 'última Visita';
-$string['back']= 'Atrás';
+$string['timeview']= 'última visita';
+$string['back']= 'Volver';
 $string['starttime']= 'Punto de comienzo';
 $string['end.time']= 'Punto de término';
-$string['assign']= 'Tarea';
-$string['cdate']= 'Fecha De Creación';
-$string['mdate']= 'Fecha De última Modificación';
+$string['assign']= 'Tarea enviadas';
+$string['cdate']= 'Fecha de creación';
+$string['mdate']= 'Fecha de última modificación';
 $string['quiz']= "Quiz Terminados";

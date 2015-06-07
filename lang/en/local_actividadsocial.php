@@ -25,15 +25,15 @@
 
 $string['socac']= 'Social Activity';
 $string['invac']= 'Invalid Action';
-$string['resources']= 'Resources';
+$string['resources']= 'Downloaded resources';
 $string['name']= 'Name';
 $string['username']= 'Username';
-$string['timeview']= 'Time View';
+$string['timeview']= 'Time view';
 $string['back']= 'Back';
-$string['starttime']= 'Starting Point';
-$string['end.time']= 'Ending Point';
-$string['assign']= 'Assign';
-$string['cdate']= 'Creation Date';
-$string['mdate']= 'Date Of Last Modification';
+$string['starttime']= 'Starting point';
+$string['end.time']= 'Ending point';
+$string['assign']= 'Sent assign';
+$string['cdate']= 'Creation date';
+$string['mdate']= 'Date of last modification';
 $string['quiz'] = "Completed Quiz";
 
