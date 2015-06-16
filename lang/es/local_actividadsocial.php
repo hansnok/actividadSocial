@@ -36,3 +36,4 @@ $string['assign']= 'Tarea enviadas';
 $string['cdate']= 'Fecha de creación';
 $string['mdate']= 'Fecha de última modificación';
 $string['quiz']= "Quiz Terminados";
+$string['grade'] = "Puntaje";

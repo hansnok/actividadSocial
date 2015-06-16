@@ -86,15 +86,17 @@ switch ($action){
 			echo html_writer::start_tag("h1").get_string('quiz','local_actividadsocial').html_writer::end_tag("h1");
 			$params = array(1,1,$cmid);
 			//Trae todos lo quizes terminados desde el mas nuevo al mas antiguo
-			$sql_quiz = "SELECT qatt.id, q.name, us.firstname, us.lastname, qatt.timestart, qatt.timefinish
+			$sql_quiz = "SELECT qatt.id, q.name, us.firstname, us.lastname, qatt.timestart, qatt.timefinish, q.grade, qg.grade as getgrade
 						 	FROM {course_modules} as cm INNER JOIN {modules} as m ON (cm.module = m.id)
 						   		INNER JOIN {quiz} as q ON (q.course = cm.course)
     					   		INNER JOIN {quiz_attempts} as qatt ON ( qatt.quiz = q.id)
     							INNER JOIN {user} as us ON (us.id = qatt.userid)
+								INNER JOIN {quiz_grades} as qg ON (qg.userid = us.id)
 						 	WHERE m.name in ('quiz')
 								AND cm.visible = ?
     							AND m.visible = ?
     							AND cm.course = ?
+							GROUP BY qatt.id
     					  	ORDER BY qatt.timefinish DESC, qatt.id";
 			// Consulta a la base de datos
 			$lastquiz = $DB->get_records_sql($sql_quiz, $params);
@@ -102,13 +104,16 @@ switch ($action){
 			$table_quiz = new html_table();
 			$table_quiz->head = array(get_string('name','local_actividadsocial'),
 									get_string('username','local_actividadsocial'),
+									get_string('grade','local_actividadsocial'),
 									get_string('starttime','local_actividadsocial'),
 									get_string('end.time','local_actividadsocial')
 			);
 			foreach($lastquiz as $quiz){
-				$timestart = date('d-m-Y  H:i',$quiz->timestart);
-				$timefinish = date('d-m-Y  H:i',$quiz->timefinish);
-				$table_quiz->data[] = array($quiz->name,$quiz->firstname." ".$quiz->lastname,$timestart ,$timefinish);
+				if($quiz->getgrade >= ($quiz->grade)/2){
+					$timestart = date('d-m-Y  H:i',$quiz->timestart);
+					$timefinish = date('d-m-Y  H:i',$quiz->timefinish);
+					$table_quiz->data[] = array($quiz->name,$quiz->firstname." ".$quiz->lastname,intval($quiz->getgrade)."/".intval($quiz->grade),$timestart ,$timefinish);
+				}
 			}
 			// se imprime en pantalla la tabla con lo datos y un boton que permite volver al curso desde el cual se hizo click en el bloque
 			echo html_writer::table($table_quiz);

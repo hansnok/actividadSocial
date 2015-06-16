@@ -36,4 +36,4 @@ $string['assign']= 'Sent assign';
 $string['cdate']= 'Creation date';
 $string['mdate']= 'Date of last modification';
 $string['quiz'] = "Completed Quiz";
-
+$string['grade'] = "Grade";
